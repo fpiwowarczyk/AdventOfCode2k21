@@ -1,0 +1,7 @@
+{
+  "name": "AdventOfCode2k21",
+  "version": "1.0.0",
+  "dependencies": {
+    "n-readlines": "^1.0.1"
+  }
+}
