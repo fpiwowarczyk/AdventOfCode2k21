@@ -4,10 +4,7 @@ input = fs.readFileSync('input.txt','utf8').split '\n'
 
 bingoNumbers = input.shift().split(',')
 
-
-winningOptions = ['01234','56789','1011121314','1516171819','2021222324','05101520','16111621','38131823','49141924']
-
-bingoMatrix = []
+bingoBoards = []
 tab = []
 i=0
 (
@@ -17,30 +14,41 @@ i=0
     i++
     if(i==5)
         i=0
-        bingoMatrix.push tab
+        bingoBoards.push(tab)
         tab = []
 
 ) for line in input when line isnt '\r'
 
-getTabAsLine = (tab) ->
-    tabAsLine = []
-    tabAsLine.push el for el in  line when el isnt '' for line in tab
-    return tabAsLine
+class BingoBoard
+    board = {}
+    constructor: (table) ->
+        col = 0
+        row = 0
+        (
+            
+            board[el] = {value: el, col: col,row: row,picked: false} 
+            col++
+            if col == 5
+                col = 0
+                row++
+        ) for el in line when el isnt '' for line in table 
+        console.log board 
 
-indexToMatrixCoords (number)->
-     switch number
-        when 1 then
-
-getWinningRound = (tabAsLine, tabNumber)->
-    winningMatrix = [['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','','']]
-    matched = ''
-    round = 0
-    (if tabAsLine.includes number
-        tabAsLine.indexOf number
-        if winningOptions.includes matched
-            console.log "For tab #{tabNumber} winning round is #{round}"
-        )for number in bingoNumbers
-
-getWinningRound(getTabAsLine(bingoMatrix[i]), i )for i in [0..bingoMatrix.length-1]
+    getByCoords:  (col,row) ->
+        for v,k of board 
+            console.log v,k
+            if k.col == col and k.row == row 
+                return k
+    
+    pick: (value) ->
+        board[value] = {board[value]...,picked: true } 
+        console.log board[value ]
 
 
+temp = new BingoBoard bingoBoards[0] 
+toSet = temp.getByCoords(1,1)
+temp.pick(temp)
+
+
+
+# I GIVE UP COFFEE IS SHIT 
