@@ -22,12 +22,28 @@ function isLowest(i:number,j:number,caveArray:any[]){
             output =  false;
         }
     }
-    
-    if(output){
-        console.log(i,j)
-        console.log(`--------\n\r  ${i>0?caveArray[i-1][j]:" "} \n ${j>0?caveArray[i][j-1]:" "}${caveArray[i][j]}${j<lineLength?caveArray[i][j+1]:" "} \n \r  ${i<(lineAmount-1)?caveArray[i+1][j]:" "}\n--------`)                                                   
-    }
 
+    return output;
+}
+
+function findBasins(i:number,j:number,caveArray:any[],output:number):number{
+    let current = Number(caveArray[i][j]);
+    if(current === 9){
+        return output;
+    }
+    output++;
+    if(i>0 && current === (Number(caveArray[i-1][j]) - 1)){
+        output += findBasins(i-1,j,caveArray,output);
+    }
+    if(i<lineAmount-1 && current === (Number(caveArray[i+1][j]) - 1)){
+        output += findBasins(i+1,j,caveArray,output);
+    }
+    if(j > 0 && current === (Number(caveArray[i][j-1]) - 1)){
+        output += findBasins(i,j-1,caveArray,output);
+    }
+    if(j<lineLength && current === (Number(caveArray[i][j+1]) - 1)){
+        output += findBasins(i,j+1,caveArray,output);
+    }
     return output;
 }
 
@@ -44,6 +60,7 @@ for(let caveLine of caves){
     i++;
 }
 let riskLevel = 0
+let basins = []
 lineLength = caveArray[0].length;
 lineAmount = caveArray.length;
 let output = []
@@ -51,17 +68,13 @@ for(let i in caveArray){
     for( let j in caveArray[i]){
         if(isLowest(Number(i),Number(j),caveArray)){
             riskLevel += Number(caveArray[i][j])+1
-            output.push(caveArray[i][j])
+            basins.push(findBasins(Number(i),Number(j),caveArray,0))
         };
     }
 }
 
-console.log(output);
-let sum = 0;
-for(let point of output){
-    console.log(point);
-    sum += Number(point)+1;
-}
 
-console.log(sum);
-console.log(riskLevel);
+
+console.log(`Sum of risk levels: ${riskLevel}`);
+
+console.log(basins);
