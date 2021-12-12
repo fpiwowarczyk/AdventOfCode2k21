@@ -1,3 +1,7 @@
+function day8(){
+
+
+
 // Unique values 
 // 2 digits - 1
 // 4 digits - 4 
@@ -112,3 +116,5 @@ for(const line of signals){
 }
 
 console.log(`Sum is: ${sum}`)
+
+}
