@@ -1,4 +1,5 @@
-const fs = require('fs')
+function day7(){
+    const fs = require('fs')
 
 const fishAges = fs.readFileSync('input.txt','utf8').split(',');
 // I need to squeeze size of array 
@@ -36,4 +37,5 @@ for(let i = 1; i<=days;i++){
     }
 
     console.log(`At day ${i} there is ${squeezedFishAges.reduce((a:number,b:number)=> a+b)}: ${squeezedFishAges}`);
+}
 }
